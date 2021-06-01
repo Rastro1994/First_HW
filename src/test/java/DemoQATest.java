@@ -1,3 +1,4 @@
+import com.github.javafaker.Faker;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
@@ -6,19 +7,21 @@ import static com.codeborne.selenide.Condition.text;
 import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 
-public class DemoQATest {
-    String firstName = "Ivan",
-            lastName = "Ivanov",
-            email = "43fsad423eds@mail.ru",
-            number = "6464614684",
+public class DemoQATest extends TestBase{
+    Faker faker = new Faker();
+    String firstName = faker.name().firstName(),
+            lastName = faker.name().lastName(),
+            email = faker.internet().emailAddress(),
+            gender = "Male",
+            number = faker.phoneNumber().subscriberNumber(10),
+            day = "28",
             month = "May",
             year = "1994",
-            day = "28",
-            subject = "Hindi",
-            hobbie1 = "Sports",
-            hobbie2 = "Reading",
+            subject = "Maths",
+            hobbie = "Reading",
             picture = "autist-472x312_c.jpg",
-            address = "45648das";
+            address = faker.address().fullAddress();
+
 
     @Test
     void fillFormTest() {
@@ -26,7 +29,7 @@ public class DemoQATest {
         $("#firstName").setValue(firstName);
         $("#lastName").setValue(lastName);
         $("#userEmail").setValue(email);
-        $(byText("Male")).click();
+        $(byText(gender)).click();
         $("#userNumber").setValue(number);
         $("#dateOfBirthInput").click();
         $(".react-datepicker__month-select").selectOption(month);
@@ -34,9 +37,8 @@ public class DemoQATest {
         $(".react-datepicker__day--028").click();
         $("#subjectsInput").setValue(subject);
         $("#react-select-2-option-0").click();
-        $(byText(hobbie1)).click();
-        $(byText(hobbie2)).click();
-        $("#uploadPicture").uploadFile(new File("src/test/resources/upload/" + picture));
+        $(byText(hobbie)).click();
+        $("#uploadPicture").uploadFile(new File("src/test/resources/" + picture));
         $("#currentAddress").setValue(address);
         $("#currentAddress").scrollTo();
         $("#state").click();
@@ -54,8 +56,7 @@ public class DemoQATest {
                 text(year),
                 text(day),
                 text(subject),
-                text(hobbie1),
-                text(hobbie2),
+                text(hobbie),
                 text(picture),
                 text(address));
 

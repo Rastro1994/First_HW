@@ -8,7 +8,7 @@ import static com.codeborne.selenide.Selectors.byText;
 import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 
-public class DemoQATest extends tests.TestBase {
+public class DemoQATest extends TestBase {
 
     Faker faker = new Faker();
 
@@ -17,15 +17,15 @@ public class DemoQATest extends tests.TestBase {
             email = faker.internet().emailAddress(),
             gender = "Other",
             mobile = faker.number().digits(10),
-            dayOfBirth = "28",
+            dayOfBirth = "10",
             monthOfBirth = "May",
-            yearOfBirth = "1994",
+            yearOfBirth = "1988",
             subject1 = "Chemistry",
             subject2 = "Commerce",
             hobby1 = "Sports",
             hobby2 = "Reading",
             hobby3 = "Music",
-            picture = "autist-472x312_c.png",
+            picture = "1.jpg",
             currentAddress = faker.address().fullAddress(),
             state = "Uttar Pradesh",
             city = "Merrut";

@@ -5,7 +5,7 @@ import org.aeonbits.owner.Config;
 @Config.LoadPolicy(Config.LoadType.MERGE)
 @Config.Sources({
         "system:properties",
-        "classpath:config/creds.properties"
+        "classpath:config/login.properties"
 })
 public interface CredentialImpl extends Config {
 

@@ -6,26 +6,32 @@ import io.qameta.allure.selenide.AllureSelenide;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import utils.AttachManager;
+import utils.Credentionlmpl;
+import utils.SystemProperty;
 
 import static com.codeborne.selenide.WebDriverRunner.closeWebDriver;
-import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class TestBase {
     @BeforeAll
-    static void setup() {
-        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+    static void setUp() {
+        final String login = Credentionlmpl.getCredConfig().getLogin();
+        final String password = Credentionlmpl.getCredConfig().getPassword();
+        final String remoteUrl = SystemProperty.readProperty();
 
-        Configuration.startMaximized = true;
+        final String selenoidUrl = String.format("https://%s:%s@%s", login, password, remoteUrl);
+
+        SelenideLogger.addListener("AllureSelenide", new AllureSelenide());
+        Configuration.browserSize = "1920x1080";
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
-
+        capabilities.setBrowserName("chrome");
+        capabilities.setVersion("89.0");
         capabilities.setCapability("enableVNC", true);
         capabilities.setCapability("enableVideo", true);
 
         Configuration.browserCapabilities = capabilities;
-        Configuration.remote = "https://user1:1234@selenoid.autotests.cloud/wd/hub/";
+        Configuration.remote = selenoidUrl + "/wd/hub/";
     }
 
     @AfterEach
@@ -39,9 +45,4 @@ public class TestBase {
 
         AttachManager.addVideo(sessionId);
     }
-
-    public static String getSessionId(){
-        return ((RemoteWebDriver) getWebDriver()).getSessionId().toString();
-    }
-
 }

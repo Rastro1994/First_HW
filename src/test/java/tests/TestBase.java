@@ -42,7 +42,6 @@ public class TestBase {
         AttachManager.pageSource();
         AttachManager.browserConsoleLogs();
         closeWebDriver();
-
         AttachManager.addVideo(sessionId);
     }
 }
